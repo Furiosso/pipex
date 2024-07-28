@@ -75,9 +75,10 @@ int	wait_pids(int **pid, int len)
 	{
 		if (waitpid((*pid)[con++], &exit_code, 0) < 0)
 			finish("waitpid failed", 18);
-        exit_code = WEXITSTATUS(exit_code);
-		//exit_code = WEXITSTATUS(exit_code);
+        	exit_code = WEXITSTATUS(exit_code);
 	}
+	//if (exit_code == 1)
+	//	exit (127);
 	//exit_code = WEXITSTATUS(exit_code);
 	return (exit_code);
 }

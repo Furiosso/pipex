@@ -61,14 +61,14 @@ int	manage_processes(int argc, char **argv, char **envp, int ***fd)
 	int	*pid;
 	int	exit_code;
 
-	//pid = NULL;
 	charge_pid(argc - 3, &pid);
 	con = -1;
 	while (++con < argc - 3)
 	{
-		pid[con] = fork();
-		if (pid[con] < 0)
-			finish("fork failed", 5);
+		fork_pid(&pid, con);
+		//pid[con] = fork();
+		//if (pid[con] < 0)
+		//	finish("fork failed", 5);
 		if (pid[con] == 0)
 		{
 			if (con == 0)
@@ -114,8 +114,8 @@ void	standard_procedure(int ***fd, int index)
 	con = 0;
 	while (con < 2)
 	{
-		if (dup2((*fd)[index++][con], con) < 6)
-			finish("dup2 failed", 14);
+		if (dup2((*fd)[index++][con], con) < 0)
+			finish("dup2", 14);
 		con++;
 	}
 }
