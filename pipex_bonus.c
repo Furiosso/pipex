@@ -14,9 +14,9 @@ int	main(int argc, char **argv, char **envp)
 	int	con;
 	int	exit_code;
 
-	if (argc != 5)
+	if (argc < 6 || (argc < 5 && argv[1] != "here_doc"))
 	{
-		if (write(2, "Please, check the format\n", 24) < 0)
+		if (write(2, "Please check the format\n", 24) < 0)
 		       return (2);	
 		return (1);
 	}

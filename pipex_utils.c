@@ -42,7 +42,7 @@ void	build_pipes(int ***fd, int len)
 	while (con < len)
 	{
 		if (pipe((*fd)[con++]) < 0)
-			finish("pipe failed", 4);
+			finish("pipe", 4);
 	}
 }
 
