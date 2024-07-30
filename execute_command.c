@@ -13,8 +13,10 @@ void	execute_command(char **argv, char **envp, int index)
 	path = find_path(envp, command[0]);
 	if (!path)
 	{
-		write(2, argv[index], ft_strlen(argv[index]));
-		write(2, ": command not found", 19);
+		if (write(2, argv[index], ft_strlen(argv[index])) < 0)
+			exit(3);
+		if (write(2, ": command not found\n", 20) < 0)
+			exit(4);
 	   	exit(127);
 	}	
 	printf("Executing command: %s with path: %s\n", command[0], path);
