@@ -1,6 +1,6 @@
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-int	manage_processes(int argc, char **argv, char **envp, int ***fd);
+int		manage_processes(int argc, char **argv, char **envp, int ***fd);
 void	open_input_file(char *file, int ***fd);
 void	standard_procedure(int ***fd, int index);
 void	open_output_file(char *file, int ***fd, int index);
@@ -8,23 +8,19 @@ void	close_fds(int ***fd, int len);
 
 int	main(int argc, char **argv, char **envp)
 {
-	//char	**command;
 	int	**fd;
-	//int		*pid;
 	int	con;
 	int	exit_code;
 
-	if (argc < 6 || (argc < 5 && argv[1] != "here_doc"))
+	if (argc < 6 || (argc < 5 && ft_strncmp(argv[1], "here_doc", 8)))
 	{
-		if (write(2, "Please check the format\n", 24) < 0)
+		if (write(2, "Please check the format\n", 25) < 0)
 		       return (2);	
 		return (1);
 	}
-	//fd = NULL;
-	//pid = NULL;
-	//if (argv[1] == "here_doc")
-	//	here_doc();
-	charge_fds(argc - 4, &fd/*, &pid*/);
+	if (!(ft_strncmp(argv[1], "here_doc", 8)))
+		here_doc(/*argc, */argv/*, envp*/, &fd);
+	charge_fds(argc - 4, &fd);
 	build_pipes(&fd, argc - 4);
 	exit_code = manage_processes(argc, argv, envp, &fd);
 	/*con = 0;
@@ -70,9 +66,6 @@ int	manage_processes(int argc, char **argv, char **envp, int ***fd)
 	while (++con < argc - 3)
 	{
 		fork_pid(&pid, con);
-		//pid[con] = fork();
-		//if (pid[con] < 0)
-		//	finish("fork failed", 5);
 		if (pid[con] == 0)
 		{
 			if (con == 0)
@@ -83,12 +76,7 @@ int	manage_processes(int argc, char **argv, char **envp, int ***fd)
 				standard_procedure(fd, con - 1);
 			close_fds(fd, argc - 4);
 			execute_command(argv, envp, con + 2);
-			/*command = ft_split(argv[con + 2], ' ');
-			if (execve(find_path(envp, command[0]), command, envp) < 0)
-				finish("execve failed", 16);
-			exit (17);*/
 		}
-		//con++;
 	}
 	close_fds(fd, argc - 4);
 	exit_code = wait_pids(&pid, argc - 3);

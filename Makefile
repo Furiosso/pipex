@@ -1,23 +1,17 @@
 
-#COMMON_FILES = pipex.c
-
 CFILES = pipex.c pipex_utils.c execute_command.c
 
-#BONUSFILES =
+BONUSFILES = pipex_bonus.c here_doc_bonus.c pipex_utils.c execute_command.c
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address,leak -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address,leak -g
 
 CC = cc
 
-#OCOMMONFILES = $(COMMON_FILES:.c=.o)
-  
 OFILES = $(CFILES:.c=.o)
 
-#OBONUSFILES = $(BONUSFILES:.c=.o)
+OBONUSFILES = $(BONUSFILES:.c=.o)
 
 NAME = pipex
-
-#BONUS_NAME =
 
 LIBFT_DIR = Libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -30,8 +24,8 @@ $(LIBFT):
 $(NAME):$(OFILES) $(LIBFT)
 	@$(CC) $(CFLAGS) -I $(LIBFT_DIR) $(OFILES) $(LIBFT) -o $(NAME)
 
-#bonus:$(OBONUSFILES) $(OCOMMONFILES) $(LIBFT)
-#	@$(CC) $(CFLAGS) $(OCOMMONFILES) $(OBONUSFILES) $(LIBFT) -o $(BONUS_NAME)
+bonus:$(OFILES) $(OBONUSFILES) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBONUSFILES) $(LIBFT) -o $(NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -I $(LIBFT_DIR) -c $< -o $@
@@ -39,11 +33,11 @@ $(NAME):$(OFILES) $(LIBFT)
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	rm -f $(OFILES)
+	rm -f $(OBONUSFILES)
 
 fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
-	#rm -f $(BONUS_NAME)
 
 re:	fclean all
 
