@@ -3,7 +3,7 @@ CFILES = pipex.c pipex_utils.c execute_command.c
 
 BONUSFILES = pipex_bonus.c here_doc_bonus.c pipex_utils.c execute_command.c
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address,leak -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address,leak -g
 
 CC = cc
 

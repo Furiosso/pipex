@@ -12,46 +12,21 @@ int	main(int argc, char **argv, char **envp)
 	int	con;
 	int	exit_code;
 
-	if (argc < 6 || (argc < 5 && ft_strncmp(argv[1], "here_doc", 8)))
+	if (argc < 5 || (argc == 5 && !ft_strncmp(argv[1], "here_doc", 8)))
 	{
 		if (write(2, "Please check the format\n", 25) < 0)
 		       return (2);	
 		return (1);
 	}
-	if (!(ft_strncmp(argv[1], "here_doc", 8)))
-		here_doc(/*argc, */argv/*, envp*/, &fd);
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+		here_doc(argv, envp);
 	charge_fds(argc - 4, &fd);
 	build_pipes(&fd, argc - 4);
 	exit_code = manage_processes(argc, argv, envp, &fd);
-	/*con = 0;
-	while (con < argc - 3)
-	{
-		pid[con] = fork();
-		if (pid[con] < 0)
-			finish("fork failed", 5);
-		if (pid[con] == 0)
-		{		
-			if (con == 0)
-				open_input_file(argv[1], &fd);
-			else if (con == argc - 4)
-				open_output_file(argv[argc - 1], &fd, con - 1);
-			else
-				standard_procedure(&fd, con - 1);
-			close_fds(&fd, argc - 4);
-			command = ft_split(argv[con + 2], ' ');
-			if (execve(find_path(envp, command[0]), command, envp) < 0)
-				finish("execve failed", 16);
-			exit (17);
-		}
-		con++;
-	}*/
-	//close_fds(&fd, argc - 4);
-	//wait_pids(&pid, argc - 3);
 	con = 0;
 	while (con < argc - 4)
 		free(fd[con++]);
 	free(fd);
-	//free(pid);
 	return (exit_code);
 }
 
@@ -92,11 +67,11 @@ void	open_input_file(char *file, int ***fd)
 	if (file_fd < 0)
 		finish("open", 0);
 	if (dup2(file_fd, 0) < 0)
-		finish("dup2 failed", 7);
+		finish("dup2", 7);
 	if (dup2((*fd)[0][1], 1) < 0)
-		finish("dup2 failed", 8);
+		finish("dup2", 8);
 	if (close(file_fd) < 0)
-		finish("close failed", 9);
+		finish("close", 9);
 }
 
 void	standard_procedure(int ***fd, int index)
@@ -120,9 +95,9 @@ void	open_output_file(char *file, int ***fd, int index)
 	if (file_fd < 0)
 		finish("open", 10);
 	if (dup2(file_fd, 1) < 0)
-		finish("dup2 failed", 11);
+		finish("dup2", 11);
 	if (dup2((*fd)[index][0], 0) < 0)
-		finish("dup2 failed", 12);
+		finish("dup2", 12);
 	if (close(file_fd) < 0)
-		finish("close failed", 13);
+		finish("close", 13);
 }

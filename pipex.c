@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 	{
 		if (write(2, "Please, check the format\n", 25) < 0)
-				return (1);	
+			return (1);
 		return (1);
 	}
 	charge_fds(argc - 4, &fd);
@@ -89,7 +89,7 @@ void	open_output_file(char *file, int ***fd, int index)
 {
 	int	file_fd;
 
-	file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (file_fd < 0)
 		finish("open", 10);
 	if (dup2(file_fd, 1) < 0)

@@ -19,9 +19,8 @@ void	execute_command(char **argv, char **envp, int index)
 			exit(4);
 	   	exit(127);
 	}	
-	printf("Executing command: %s with path: %s\n", command[0], path);
 	if (execve(path, command, envp) < 0)
-		finish("execve failed", 16);
+		finish("execve", 16);
 }
 
 char	*find_path(char **envp, char *command)

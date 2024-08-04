@@ -74,7 +74,7 @@ int	wait_pids(int **pid, int len)
 	while (con < len)
 	{
 		if (waitpid((*pid)[con++], &exit_code, 0) < 0)
-			finish("waitpid failed", 18);
+			finish("waitpid", 18);
         	exit_code = WEXITSTATUS(exit_code);
 	}
 	//if (exit_code == 1)
