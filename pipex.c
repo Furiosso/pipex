@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dagimeno <dagimeno@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/05 20:15:54 by dagimeno          #+#    #+#             */
+/*   Updated: 2024/08/05 20:16:45 by dagimeno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-int		manage_processes(int argc, char **argv, char **envp, int ***fd);
-void	open_input_file(char *file, int ***fd);
-void	standard_procedure(int ***fd, int index);
-void	open_output_file(char *file, int ***fd, int index);
-void	close_fds(int ***fd, int len);
+static int	manage_processes(int argc, char **argv, char **envp, int ***fd);
+static void	open_input_file(char *file, int ***fd);
+static void	standard_procedure(int ***fd, int index);
+static void	open_output_file(char *file, int ***fd, int index);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -28,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	return (exit_code);
 }
 
-int	manage_processes(int argc, char **argv, char **envp, int ***fd)
+static int	manage_processes(int argc, char **argv, char **envp, int ***fd)
 {
 	int	con;
 	int	*pid;
@@ -57,7 +68,7 @@ int	manage_processes(int argc, char **argv, char **envp, int ***fd)
 	return (exit_code);
 }
 
-void	open_input_file(char *file, int ***fd)
+static void	open_input_file(char *file, int ***fd)
 {
 	int	file_fd;
 
@@ -72,7 +83,7 @@ void	open_input_file(char *file, int ***fd)
 		finish("close failed", 9);
 }
 
-void	standard_procedure(int ***fd, int index)
+static void	standard_procedure(int ***fd, int index)
 {
 	int	con;
 
@@ -85,7 +96,7 @@ void	standard_procedure(int ***fd, int index)
 	}
 }
 
-void	open_output_file(char *file, int ***fd, int index)
+static void	open_output_file(char *file, int ***fd, int index)
 {
 	int	file_fd;
 

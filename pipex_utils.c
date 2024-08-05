@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dagimeno <dagimeno@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/05 20:18:05 by dagimeno          #+#    #+#             */
+/*   Updated: 2024/08/05 20:20:37 by dagimeno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-void	charge_fds(int len, int ***fd/*, int **pid*/)
+void	charge_fds(int len, int ***fd)
 {
 	int	con;
 
@@ -13,9 +25,6 @@ void	charge_fds(int len, int ***fd/*, int **pid*/)
 		(*fd)[con] = ft_calloc(2, sizeof(int));
 		if (!(*fd)[con])
 		{
-			//while (con)
-			//	free((*fd)[--con]);
-			//free(*fd);
 			finish("malloc failed", 3);
 		}
 		con++;
@@ -26,12 +35,7 @@ void	charge_pid(int len, int **pid)
 {
 	*pid = ft_calloc(len, sizeof(int));
 	if (!*pid)
-	//{
-		//while (con)
-		//	free((*fd)[--con]);
-		//free(*fd);
 		finish("malloc failed", 4);
-	//}
 }
 
 void	build_pipes(int ***fd, int len)
@@ -69,16 +73,12 @@ int	wait_pids(int **pid, int len)
 	int	con;
 	int	exit_code;
 
-	//exit_code = 0;
 	con = 0;
 	while (con < len)
 	{
 		if (waitpid((*pid)[con++], &exit_code, 0) < 0)
 			finish("waitpid", 18);
-        	exit_code = WEXITSTATUS(exit_code);
+		exit_code = WEXITSTATUS(exit_code);
 	}
-	//if (exit_code == 1)
-	//	exit (127);
-	//exit_code = WEXITSTATUS(exit_code);
 	return (exit_code);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dagimeno <dagimeno@student.42madrid.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/05 20:26:06 by dagimeno          #+#    #+#             */
+/*   Updated: 2024/08/05 20:27:01 by dagimeno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 char	*find_path(char **envp, char *command);
@@ -17,8 +29,8 @@ void	execute_command(char **argv, char **envp, int index)
 			exit(3);
 		if (write(2, ": command not found\n", 20) < 0)
 			exit(4);
-	   	exit(127);
-	}	
+		exit(127);
+	}
 	if (execve(path, command, envp) < 0)
 		finish("execve", 16);
 }

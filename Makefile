@@ -1,7 +1,7 @@
 
 CFILES = pipex.c pipex_utils.c execute_command.c
 
-BONUSFILES = pipex_bonus.c here_doc_bonus.c pipex_utils.c execute_command.c
+BONUSFILES = pipex_utils.c execute_command.c pipex_bonus.c pipex_utils_bonus.c 
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address,leak -g
 
@@ -25,7 +25,7 @@ $(NAME):$(OFILES) $(LIBFT)
 	@$(CC) $(CFLAGS) -I $(LIBFT_DIR) $(OFILES) $(LIBFT) -o $(NAME)
 
 bonus:$(OFILES) $(OBONUSFILES) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBONUSFILES) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBONUSFILES) $(LIBFT) -o $(NAME)_bonus
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -I $(LIBFT_DIR) -c $< -o $@
