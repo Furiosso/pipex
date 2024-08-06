@@ -12,9 +12,9 @@
 
 #include "pipex.h"
 
-char	*find_path(char **envp, char *command);
-char	*charge_path(char **addresses, char *command);
-void	finish(char *s, int err_key);
+static char	*find_path(char **envp, char *command);
+static char	*charge_path(char **addresses, char *command);
+void		finish(char *s, int err_key);
 
 void	execute_command(char **argv, char **envp, int index)
 {
@@ -35,7 +35,7 @@ void	execute_command(char **argv, char **envp, int index)
 		finish("execve", 16);
 }
 
-char	*find_path(char **envp, char *command)
+static char	*find_path(char **envp, char *command)
 {
 	char	*path;
 	char	*aux;
@@ -62,7 +62,7 @@ char	*find_path(char **envp, char *command)
 	return (path);
 }
 
-char	*charge_path(char **addresses, char *command)
+static char	*charge_path(char **addresses, char *command)
 {
 	char	*path;
 	char	*aux;
@@ -91,5 +91,5 @@ void	fork_pid(int **pid, int con)
 {
 	(*pid)[con] = fork();
 	if ((*pid)[con] < 0)
-		finish("fork failed", 5);
+		finish("fork", 5);
 }

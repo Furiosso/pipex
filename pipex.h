@@ -28,7 +28,6 @@ void	build_pipes(int ***fd, int index);
 void	fork_pid(int **pid, int con);
 void	finish(char *s, int err_key);
 void	execute_command(char **argv, char **envp, int index);
-char	*find_path(char **envp, char *command);
 void	close_fds(int ***fd, int len);
 int		wait_pids(int **pid, int len);
 

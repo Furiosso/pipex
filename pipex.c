@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 	{
 		if (write(2, "Please, check the format\n", 25) < 0)
-			return (1);
+			return (2);
 		return (1);
 	}
 	charge_fds(argc - 4, &fd);
@@ -76,11 +76,11 @@ static void	open_input_file(char *file, int ***fd)
 	if (file_fd < 0)
 		finish("open", 0);
 	if (dup2(file_fd, 0) < 0)
-		finish("dup2 failed", 7);
+		finish("dup2", 7);
 	if (dup2((*fd)[0][1], 1) < 0)
-		finish("dup2 failed", 8);
+		finish("dup2", 8);
 	if (close(file_fd) < 0)
-		finish("close failed", 9);
+		finish("close", 9);
 }
 
 static void	standard_procedure(int ***fd, int index)
@@ -104,9 +104,9 @@ static void	open_output_file(char *file, int ***fd, int index)
 	if (file_fd < 0)
 		finish("open", 10);
 	if (dup2(file_fd, 1) < 0)
-		finish("dup2 failed", 11);
+		finish("dup2", 11);
 	if (dup2((*fd)[index][0], 0) < 0)
-		finish("dup2 failed", 12);
+		finish("dup2", 12);
 	if (close(file_fd) < 0)
-		finish("close failed", 13);
+		finish("close", 13);
 }
