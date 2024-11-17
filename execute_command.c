@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:26:06 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/16 18:23:39 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/11/17 18:52:16 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,8 @@ static char	*find_path(char **envp, char *command)
 	char	**addresses;
 	int		i;
 
-	if (!*envp)
-	{
-	//	if (!access(command, F_OK | X_OK))
-	//		return (command);/	
-			exit (21);
-	}
-	//if (!access(command, F_OK | X_OK))
-	//	return (command);
+	if (!access(command, F_OK | X_OK)/* || ft_strchr(command, '/')*/)
+		return (command);	
 	i = 0;
 	path = NULL;
 	while (envp[i])
@@ -77,8 +71,6 @@ static char	*charge_path(char **addresses, char *command)
 	int		i;
 
 	i = 0;
-	//if (!addresses)
-	//	return (NULL);
 	while (addresses[i])
 	{
 		aux = ft_strjoin("/", command);
@@ -88,5 +80,6 @@ static char	*charge_path(char **addresses, char *command)
 			return (path);
 		free(path);
 	}
-	return (0);
+	//return (0);
+	//return (command);
 }

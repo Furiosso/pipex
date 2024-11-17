@@ -5,7 +5,7 @@ MANDATORYFILES = pipex_utils_mandatory.c
 
 BONUSFILES = pipex_utils.c execute_command.c pipex_bonus.c pipex_utils_bonus.c 
 
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address,leak 
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address,leak 
 
 CC = cc
 
