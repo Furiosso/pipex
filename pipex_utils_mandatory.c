@@ -17,7 +17,7 @@ static void	check_arg(int argc)
 	if (argc != 5)
 	{
 		if (write(2, "Please, check the format\n", 25) < 0)
-			finish("write", 2);
+			finish("write", 2, NULL);
 		exit(1);
 	}
 }

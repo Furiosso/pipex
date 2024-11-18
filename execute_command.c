@@ -15,7 +15,7 @@
 static char	*find_path(char **envp, char *command);
 static char	*charge_path(char **addresses, char *command);
 
-void	execute_command(char **argv, char **envp, int index)
+void	execute_command(char **argv, char **envp, int index, t_params *params)
 {
 	char	**command;
 	char	*path;
@@ -25,13 +25,13 @@ void	execute_command(char **argv, char **envp, int index)
 	if (!path)
 	{
 		if (write(2, command[0], ft_strlen(command[0])) < 0)
-			finish("write", 18);
+			finish("write", 18, params);
 		if (write(2, ": command not found\n", 20) < 0)
-			finish("write", 19);
+			finish("write", 19, params);
 		exit(127);
 	}
 	if (execve(path, command, envp) < 0)
-		finish("execve", 20);
+		finish("execve", 20, params);
 }
 
 static char	*find_path(char **envp, char *command)
@@ -81,5 +81,5 @@ static char	*charge_path(char **addresses, char *command)
 		free(path);
 	}
 	//return (0);
-	//return (command);
+	return (command);
 }

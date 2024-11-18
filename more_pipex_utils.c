@@ -12,25 +12,36 @@
 
 #include "pipex.h"
 
-void	finish(char *s, int err_key)
+void	finish(char *s, int err_key, t_params *params)
 {
+	if (params)
+	{
+		if (params->fd)
+		{
+			close_fds(params);
+			free_fds(params);
+		}
+		if (params->pid)
+			free(params->pid);
+		free(params);
+	}
 	perror(s);
 	exit(err_key);
 }
 
-void	fork_pid(pid_t **pid, int con)
+void	fork_pid(t_params *params, int con)
 {
-	(*pid)[con] = fork();
-	if ((*pid)[con] < 0)
-		finish("fork", 5);
+	params->pid[con] = fork();
+	if ((params->pid)[con] < 0)
+		finish("fork", 5, params);
 }
 
-void	free_fds(int **fd, int len)
+void	free_fds(t_params *params)
 {
 	int	con;
 
 	con = 0;
-	while (con < len)
-		free(fd[con++]);
-	free(fd);
+	while (con < params->f_num)
+		free(params->fd[con++]);
+	free(params->fd);
 }

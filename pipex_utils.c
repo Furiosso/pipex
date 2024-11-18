@@ -12,70 +12,70 @@
 
 #include "pipex.h"
 
-void	charge_fds(int len, int ***fd)
+void	charge_fds(t_params *params)
 {
 	int	con;
 
-	*fd = ft_calloc(len, sizeof(int *));
-	if (!*fd)
-		finish("malloc", 3);
+	params->fd = ft_calloc(params->f_num, sizeof(int *));
+	if (!params->fd)
+		finish("malloc", 3, params);
 	con = 0;
-	while (con < len)
+	while (con < params->f_num)
 	{
-		(*fd)[con] = ft_calloc(2, sizeof(int));
-		if (!(*fd)[con])
-			finish("malloc", 4);
+		params->fd[con] = ft_calloc(2, sizeof(int));
+		if (!params->fd[con])
+			finish("malloc", 4, params);
 		con++;
 	}
 }
 
-void	build_pipes(int ***fd, int len)
+void	build_pipes(t_params *params)
 {
 	int	con;
 
 	con = 0;
-	while (con < len)
+	while (con < params->f_num)
 	{
-		if (pipe((*fd)[con++]) < 0)
-			finish("pipe", 6);
+		if (pipe(params->fd[con++]) < 0)
+			finish("pipe", 6, params);
 	}
 }
 
-void	charge_pid(int len, pid_t **pid)
+void	charge_pid(t_params *params)
 {
-	*pid = ft_calloc(len, sizeof(pid_t));
-	if (!*pid)
-		finish("malloc", 5);
+	params->pid = ft_calloc(params->p_num, sizeof(pid_t));
+	if (!params->pid)
+		finish("malloc", 5, params);
 }
 
-void	close_fds(int ***fd, int len)
+void	close_fds(t_params *params)
 {
 	int	con[2];
 
 	con[0] = 0;
-	while (con[0] < len)
+	while (con[0] < params->f_num)
 	{
 		con[1] = 0;
 		while (con[1] < 2)
 		{
-			if (close((*fd)[con[0]][con[1]]) < 0)
-				finish("close", 7);
+			if (close(params->fd[con[0]][con[1]]) < 0)
+				finish("close", 7, params);
 			con[1]++;
 		}
 		con[0]++;
 	}
 }
 
-int	wait_pids(pid_t **pid, int len)
+int	wait_pids(t_params *params)
 {
 	int	con;
 	int	exit_code;
 
 	con = 0;
-	while (con < len)
+	while (con < params->p_num)
 	{
-		if (waitpid((*pid)[con++], &exit_code, 0) < 0)
-			finish("waitpid", 8);
+		if (waitpid(params->pid[con++], &exit_code, 0) < 0)
+			finish("waitpid", 8, params);
 		exit_code = WEXITSTATUS(exit_code);
 	}
 	return (exit_code);

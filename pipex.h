@@ -23,15 +23,23 @@
 # include <errno.h>
 # include "Libft/libft.h"
 
-void	build_pipes(int ***fd, int index);
+typedef struct s_params
+{
+	int		**fd;
+	pid_t	*pid;
+	int		f_num;
+	int		p_num;
+}				t_params;
+
+void	build_pipes(t_params *params);
 void	call_check_arg(int argc);
-void	charge_fds(int len, int ***fd);
-void	close_fds(int ***fd, int len);
-void	charge_pid(int len, pid_t **pid);
-void	execute_command(char **argv, char **envp, int index);
-void	fork_pid(pid_t **pid, int con);
-void	finish(char *s, int err_key);
-void	free_fds(int **fd, int len);
-int		wait_pids(pid_t **pid, int len);
+void	charge_fds(t_params *params);
+void	close_fds(t_params *params);
+void	charge_pid(t_params *params);
+void	execute_command(char **argv, char **envp, int index, t_params *params);
+void	fork_pid(t_params *params, int con);
+void	finish(char *s, int err_key, t_params *params);
+void	free_fds(t_params *params);
+int		wait_pids(t_params *params);
 
 #endif
