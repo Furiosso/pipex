@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:26:06 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/17 18:52:16 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:28:08 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void	execute_command(char **argv, char **envp, int index, t_params *params)
 		exit(127);
 	}
 	if (execve(path, command, envp) < 0)
+	{
+		free(path);
 		finish("execve", 20, params);
+	}
 }
 
 static char	*find_path(char **envp, char *command)
@@ -80,6 +83,6 @@ static char	*charge_path(char **addresses, char *command)
 			return (path);
 		free(path);
 	}
-	//return (0);
-	return (command);
+	return (0);
+	//return (command);
 }
