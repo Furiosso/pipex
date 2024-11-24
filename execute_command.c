@@ -14,14 +14,15 @@
 
 static char	*find_path(char **envp, char *command);
 static char	*charge_path(char **addresses, char *command);
+static void	free_addresses(char **addresses);
 
-void	execute_command(char **argv, char **envp, int index, t_params *params)
+void	execute_command(int index, t_params *params)
 {
 	char	**command;
 	char	*path;
 
-	command = ft_split(argv[index], ' ');
-	path = find_path(envp, command[0]);
+	command = ft_split(params->argv[index], ' ');
+	path = find_path(params->envp, command[0]);
 	if (!path)
 	{
 		if (write(2, command[0], ft_strlen(command[0])) < 0)
@@ -30,7 +31,7 @@ void	execute_command(char **argv, char **envp, int index, t_params *params)
 			finish("write", 19, params);
 		exit(127);
 	}
-	if (execve(path, command, envp) < 0)
+	if (execve(path, command, params->envp) < 0)
 	{
 		free(path);
 		finish("execve", 20, params);
@@ -44,26 +45,24 @@ static char	*find_path(char **envp, char *command)
 	char	**addresses;
 	int		i;
 
-	if (!access(command, F_OK | X_OK)/* || ft_strchr(command, '/')*/)
-		return (command);	
+	if (!access(command, F_OK | X_OK) && ft_strchr(command, '/'))
+		return (command);
 	i = 0;
 	path = NULL;
 	while (envp[i])
 	{
-		if (ft_strnstr(envp[i++], "PATH=", 5))
+		if (!ft_strncmp(envp[i++], "PATH=", 5))
+		{
+			aux = ft_strtrim(envp[--i], "PATH=");
+			addresses = ft_split(aux, ':');
+			free(aux);
+			path = charge_path(addresses, command);
+			free_addresses(addresses);
 			break ;
+		}
 	}
-	aux = ft_strtrim(envp[--i], "PATH=");
-	addresses = ft_split(aux, ':');
-	free(aux);
-	path = charge_path(addresses, command);
-	//estas dos lineas inferiores parecen funcionar bien pero tengo que repasar toda la funcion antes de confirmar
-	//if (!path && !access(command, F_OK | X_OK))
-	//	return (command);
-	i = 0;
-	while (addresses[i])
-		free(addresses[i++]);
-	free (addresses);
+	if (!path && !access(command, F_OK | X_OK))
+		return (command);
 	return (path);
 }
 
@@ -84,5 +83,14 @@ static char	*charge_path(char **addresses, char *command)
 		free(path);
 	}
 	return (0);
-	//return (command);
+}
+
+static void	free_addresses(char **addresses)
+{
+	int	i;
+
+	i = 0;
+	while (addresses[i])
+		free(addresses[i++]);
+	free(addresses);
 }

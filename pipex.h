@@ -26,17 +26,24 @@
 typedef struct s_params
 {
 	int		**fd;
+	int		argc;
+	char	**argv;
+	char	**envp;
 	pid_t	*pid;
 	int		f_num;
 	int		p_num;
+	int		index_first_argument;
+	char	is_here_doc;
 }				t_params;
 
 void	build_pipes(t_params *params);
-void	call_check_arg(int argc);
+void	call_check_input(t_params *params);
 void	charge_fds(t_params *params);
 void	close_fds(t_params *params);
+void	close_file_fd_and_finish(int file_fd, t_params *params, char *s);
 void	charge_pid(t_params *params);
-void	execute_command(char **argv, char **envp, int index, t_params *params);
+void	execute_command(int index, t_params *params);
+void	fill_params(t_params *params, char **envp);
 void	fork_pid(t_params *params, int con);
 void	finish(char *s, int err_key, t_params *params);
 void	free_fds(t_params *params);

@@ -12,22 +12,7 @@
 
 #include "pipex.h"
 
-void	finish(char *s, int err_key, t_params *params)
-{
-	if (params)
-	{
-		if (params->fd)
-		{
-			close_fds(params);
-			free_fds(params);
-		}
-		if (params->pid)
-			free(params->pid);
-		free(params);
-	}
-	perror(s);
-	exit(err_key);
-}
+static void	get_input(t_params *params);
 
 void	fork_pid(t_params *params, int con)
 {
@@ -44,4 +29,48 @@ void	free_fds(t_params *params)
 	while (con < params->f_num)
 		free(params->fd[con++]);
 	free(params->fd);
+}
+
+void	fill_params(t_params *params, char **envp)
+{
+	params->envp = envp;
+	if (params->is_here_doc)
+	{
+		params->index_first_argument = 3;
+		params->f_num = params->argc - 5;
+		params->p_num = params->argc - 4;
+		get_input(params);
+		return ;
+	}
+	params->index_first_argument = 2;
+	params->f_num = params->argc - 4;
+	params->p_num = params->argc - 3;
+}
+
+static void	get_input(t_params *params)
+{
+	int		file_fd;
+	char	*line;
+
+	unlink("tempfile");
+	file_fd = open("tempfile", O_CREAT | O_WRONLY, 0777);
+	if (file_fd < 0)
+		finish("tempfile", 37, params);
+	ft_printf("> ");
+	line = get_next_line(0);
+	if (!line)
+		close_file_fd_and_finish(file_fd, params, "get_next_line");
+	while (ft_strncmp(line, params->argv[2], ft_strlen(params->argv[2])))
+	{
+		if (write(file_fd, line, ft_strlen(line)) < 0)
+			close_file_fd_and_finish(file_fd, params, "get_next_line");
+		free(line);
+		ft_printf("> ");
+		line = get_next_line(0);
+		if (!line)
+			close_file_fd_and_finish(file_fd, params, "get_next_line");
+	}
+	free(line);
+	if (close(file_fd) < 0)
+		finish("close", 789, params);
 }

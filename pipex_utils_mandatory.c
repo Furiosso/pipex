@@ -12,17 +12,17 @@
 
 #include "pipex_mandatory.h"
 
-static void	check_arg(int argc)
+static void	check_input(t_params *params)
 {
-	if (argc != 5)
+	if (params->argc != 5)
 	{
 		if (write(2, "Please, check the format\n", 25) < 0)
-			finish("write", 2, NULL);
+			finish("write", 2, params);
 		exit(1);
 	}
 }
 
-void	call_check_arg(int argc)
+void	call_check_input(t_params *params)
 {
-	check_arg(argc);
+	check_input(params);
 }
