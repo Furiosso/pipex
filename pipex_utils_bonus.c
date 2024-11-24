@@ -22,8 +22,8 @@ static void	check_input(t_params *params)
 	if (argc < 5 || (argc == 5 && !ft_strncmp(argv[1], "here_doc", 8)))
 	{
 		if (write(2, "Please check the format\n", 25) < 0)
-			finish ("write", 2, NULL);
-		exit (1);
+			finish ("write", 5, NULL);
+		exit (4);
 	}
 	if (!ft_strncmp(argv[1], "here_doc", 8))
 		params->is_here_doc = 1;

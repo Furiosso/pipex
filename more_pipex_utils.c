@@ -18,7 +18,7 @@ void	fork_pid(t_params *params, int con)
 {
 	params->pid[con] = fork();
 	if ((params->pid)[con] < 0)
-		finish("fork", 5, params);
+		finish("fork", 13, params);
 }
 
 void	free_fds(t_params *params)
@@ -55,7 +55,7 @@ static void	get_input(t_params *params)
 	unlink("tempfile");
 	file_fd = open("tempfile", O_CREAT | O_WRONLY, 0777);
 	if (file_fd < 0)
-		finish("tempfile", 37, params);
+		finish("tempfile", 6, params);
 	ft_printf("> ");
 	line = get_next_line(0);
 	if (!line)
@@ -72,5 +72,5 @@ static void	get_input(t_params *params)
 	}
 	free(line);
 	if (close(file_fd) < 0)
-		finish("close", 789, params);
+		finish("close", 8, params);
 }

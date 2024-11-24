@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_mandatory.h"
+#include "pipex.h"
 
 static void	check_input(t_params *params)
 {
 	if (params->argc != 5)
 	{
 		if (write(2, "Please, check the format\n", 25) < 0)
-			finish("write", 2, params);
-		exit(1);
+			finish("write", 3, params);
+		exit(2);
 	}
 }
 

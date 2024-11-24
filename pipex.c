@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 
 	params = ft_calloc(1, sizeof(t_params));
 	if (!params)
-		finish("ft_calloc", 99, NULL);
+		finish("ft_calloc", 1, NULL);
 	params->argc = argc;
 	params->argv = argv;
 	call_check_input(params);
@@ -74,13 +74,13 @@ static void	open_input_file(char *file, t_params *params)
 	else
 		file_fd = open(file, O_RDONLY);
 	if (file_fd < 0)
-		finish(file, 9, params);
+		finish(file, 14, params);
 	if (dup2(file_fd, 0) < 0)
 		close_file_fd_and_finish(file_fd, params, "dup2");
 	if (dup2(params->fd[0][1], 1) < 0)
 		close_file_fd_and_finish(file_fd, params, "dup2");
 	if (close(file_fd) < 0)
-		finish("close", 12, params);
+		finish("close", 15, params);
 	if (params->is_here_doc)
 		unlink("tempfile");
 }
@@ -93,7 +93,7 @@ static void	standard_procedure(t_params *params, int index)
 	while (con < 2)
 	{
 		if (dup2(params->fd[index++][con], con) < 0)
-			finish("dup2", 13, params);
+			finish("dup2", 18, params);
 		con++;
 	}
 }
@@ -107,7 +107,7 @@ static void	open_output_file(char *file, t_params *params, int index)
 	else
 		file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (file_fd < 0)
-		finish(file, 14, params);
+		finish(file, 16, params);
 	if (dup2(file_fd, 1) < 0)
 		close_file_fd_and_finish(file_fd, params, "dup2");
 	if (dup2(params->fd[index][0], 0) < 0)

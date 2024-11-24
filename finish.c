@@ -30,6 +30,6 @@ void	finish(char *s, int err_key, t_params *params)
 void	close_file_fd_and_finish(int file_fd, t_params *params, char *s)
 {
 	if (close(file_fd) < 0)
-		finish("close", 12, params);
+		finish("close", 7, params);
 	finish(s, 10, params);
 }
