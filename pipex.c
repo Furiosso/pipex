@@ -70,7 +70,7 @@ static void	open_input_file(char *file, t_params *params)
 	int	file_fd;
 
 	if (params->is_here_doc)
-		file_fd = open("tempfile", O_RDONLY, 0777);
+		file_fd = open("eoirfngjksdfveaoi48", O_RDONLY, 0777);
 	else
 		file_fd = open(file, O_RDONLY);
 	if (file_fd < 0)
@@ -82,7 +82,7 @@ static void	open_input_file(char *file, t_params *params)
 	if (close(file_fd) < 0)
 		finish("close", 15, params);
 	if (params->is_here_doc)
-		unlink("tempfile");
+		unlink("eoirfngjksdfveaoi48");
 }
 
 static void	standard_procedure(t_params *params, int index)

@@ -14,7 +14,7 @@
 
 void	finish(char *s, int err_key, t_params *params)
 {
-	unlink("tempfile");
+	unlink("eoirfngjksdfveaoi48");
 	if (params->fd)
 	{
 		close_fds(params);

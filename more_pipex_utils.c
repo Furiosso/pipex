@@ -52,10 +52,10 @@ static void	get_input(t_params *params)
 	int		file_fd;
 	char	*line;
 
-	unlink("tempfile");
-	file_fd = open("tempfile", O_CREAT | O_WRONLY, 0777);
+	unlink("eoirfngjksdfveaoi48");
+	file_fd = open("eoirfngjksdfveaoi48", O_CREAT | O_WRONLY, 0777);
 	if (file_fd < 0)
-		finish("tempfile", 6, params);
+		finish("eoirfngjksdfveaoi48", 6, params);
 	ft_printf("> ");
 	line = get_next_line(0);
 	if (!line)
