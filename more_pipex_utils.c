@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 11:18:57 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/16 19:06:52 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:32:06 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	fork_pid(t_params *params, int con)
 {
 	params->pid[con] = fork();
 	if ((params->pid)[con] < 0)
-		finish("fork", 13, params);
+		finish("fork", 13, params, 1);
 }
 
 void	free_fds(t_params *params)
@@ -55,7 +55,7 @@ static void	get_input(t_params *params)
 	unlink("eoirfngjksdfveaoi48");
 	file_fd = open("eoirfngjksdfveaoi48", O_CREAT | O_WRONLY, 0777);
 	if (file_fd < 0)
-		finish("eoirfngjksdfveaoi48", 6, params);
+		finish("eoirfngjksdfveaoi48", 6, params, 1);
 	ft_printf("> ");
 	line = get_next_line(0);
 	if (!line)
@@ -72,5 +72,5 @@ static void	get_input(t_params *params)
 	}
 	free(line);
 	if (close(file_fd) < 0)
-		finish("close", 8, params);
+		finish("close", 8, params, 1);
 }

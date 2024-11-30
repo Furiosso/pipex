@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dagimeno <dagimeno@student.42madrid.c      +#+  +:+       +#+        */
+/*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:25:06 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/08/06 20:57:35 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/11/30 13:45:58 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 static void	check_input(t_params *params)
 {
-	int		argc;
-	char	**argv;
+	int		len;
+	char	*arg;
 
-	argc = params->argc;
-	argv = params->argv;
-	if (argc < 5 || (argc == 5 && !ft_strncmp(argv[1], "here_doc", 8)))
+	len = params->argc;
+	arg = params->argv[1];
+	if (len < 5 || (len == 5 && !ft_strncmp(arg, "here_doc", ft_strlen(arg))))
 	{
 		if (write(2, "Please check the format\n", 25) < 0)
-			finish ("write", 5, NULL);
+			finish ("write", 5, params, 0);
+		free(params);
 		exit (4);
 	}
-	if (!ft_strncmp(argv[1], "here_doc", 8))
+	if (!ft_strncmp(arg, "here_doc", ft_strlen(arg)))
 		params->is_here_doc = 1;
 }
 

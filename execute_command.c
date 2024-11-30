@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:26:06 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/18 13:28:08 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/11/30 16:01:47 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,30 @@ static char	*find_path(char **envp, char *command);
 static char	*charge_path(char **addresses, char *command);
 static void	free_addresses(char **addresses);
 
-void	execute_command(int index, t_params *params)
+void	execute_command(int index, t_params *params, int pindex)
 {
 	char	**command;
 	char	*path;
 
+	if (!ft_strlen(params->argv[index]))
+		finish("Command '' not found", 22, params, 0);
 	command = ft_split(params->argv[index], ' ');
 	path = find_path(params->envp, command[0]);
 	if (!path)
 	{
 		if (write(2, command[0], ft_strlen(command[0])) < 0)
-			finish("write", 18, params);
+			free_command_and_finish(command, "write", params);
+		free_command(command);
 		if (write(2, ": command not found\n", 20) < 0)
-			finish("write", 19, params);
+			finish("write", 19, params, 1);
+		if (params->pid[pindex] == 0)
+			free_params(params, 0);
 		exit(127);
 	}
 	if (execve(path, command, params->envp) < 0)
 	{
 		free(path);
-		finish("execve", 20, params);
+		finish("execve", 20, params, 1);
 	}
 }
 

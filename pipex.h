@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:16:55 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/16 18:11:39 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:57:57 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,14 @@ void	charge_fds(t_params *params);
 void	close_fds(t_params *params);
 void	close_file_fd_and_finish(int file_fd, t_params *params, char *s);
 void	charge_pid(t_params *params);
-void	execute_command(int index, t_params *params);
+void	execute_command(int index, t_params *params, int pindex);
 void	fill_params(t_params *params, char **envp);
 void	fork_pid(t_params *params, int con);
-void	finish(char *s, int err_key, t_params *params);
+void	finish(char *s, int err_key, t_params *params, char are_fds_open);
+void	free_command(char **command);
+void	free_command_and_finish(char **command, char *s, t_params *params);
 void	free_fds(t_params *params);
+void	free_params(t_params *params, char are_fds_opens);
 int		wait_pids(t_params *params);
 
 #endif
