@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:26:06 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/30 16:01:47 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/12/01 12:44:43 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	execute_command(int index, t_params *params, int pindex)
 	char	*path;
 
 	if (!ft_strlen(params->argv[index]))
-		finish("Command '' not found", 22, params, 0);
+		finish("''", 22, params, 0);
 	command = ft_split(params->argv[index], ' ');
 	path = find_path(params->envp, command[0]);
 	if (!path)
