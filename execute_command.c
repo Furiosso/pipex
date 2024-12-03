@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:26:06 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/12/01 12:44:43 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:21:10 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static char	*find_path(char **envp, char *command);
 static char	*charge_path(char **addresses, char *command);
 static void	free_addresses(char **addresses);
+static void	execute(char *path, char **command, t_params *params);
 
 void	execute_command(int index, t_params *params, int pindex)
 {
@@ -24,6 +25,8 @@ void	execute_command(int index, t_params *params, int pindex)
 	if (!ft_strlen(params->argv[index]))
 		finish("''", 22, params, 0);
 	command = ft_split(params->argv[index], ' ');
+	if (!ft_strncmp(command[0], "/", 1) || !ft_strncmp(command[0], "./", 2))
+		execute(command[0], command, params);
 	path = find_path(params->envp, command[0]);
 	if (!path)
 	{
@@ -36,11 +39,7 @@ void	execute_command(int index, t_params *params, int pindex)
 			free_params(params, 0);
 		exit(127);
 	}
-	if (execve(path, command, params->envp) < 0)
-	{
-		free(path);
-		finish("execve", 20, params, 1);
-	}
+	execute(path, command, params);
 }
 
 static char	*find_path(char **envp, char *command)
@@ -50,8 +49,6 @@ static char	*find_path(char **envp, char *command)
 	char	**addresses;
 	int		i;
 
-	if (!access(command, F_OK | X_OK) && ft_strchr(command, '/'))
-		return (command);
 	i = 0;
 	path = NULL;
 	while (envp[i])
@@ -98,4 +95,17 @@ static void	free_addresses(char **addresses)
 	while (addresses[i])
 		free(addresses[i++]);
 	free(addresses);
+}
+
+static void	execute(char *path, char **command, t_params *params)
+{
+	char	s[100];
+
+	if (execve(path, command, params->envp) < 0)
+	{
+		ft_strlcpy(s, command[0], sizeof(s));
+		if (path != command[0])
+			free(path);
+		free_command_and_finish(command, s, params);
+	}
 }
