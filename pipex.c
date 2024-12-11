@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:15:54 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/30 13:39:59 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/12/11 21:38:43 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ static void	open_output_file(char *file, t_params *params, int index)
 	int	file_fd;
 
 	if (params->is_here_doc)
-		file_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		file_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file_fd < 0)
 		finish(file, 1, params, 1);
 	if (dup2(file_fd, 1) < 0)
