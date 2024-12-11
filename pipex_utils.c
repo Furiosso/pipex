@@ -6,7 +6,7 @@
 /*   By: dagimeno <dagimeno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 20:18:05 by dagimeno          #+#    #+#             */
-/*   Updated: 2024/11/29 15:34:26 by dagimeno         ###   ########.fr       */
+/*   Updated: 2024/12/11 21:01:29 by dagimeno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ int	wait_pids(t_params *params)
 	{
 		if (waitpid(params->pid[con++], &exit_code, 0) < 0)
 			finish("waitpid", 21, params, 1);
-		exit_code = WEXITSTATUS(exit_code);
-	}
+		//exit_code = WEXITSTATUS(exit_code);
+	}	
+	exit_code = WEXITSTATUS(exit_code);
 	return (exit_code);
 }
